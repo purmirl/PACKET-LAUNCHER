@@ -15,19 +15,8 @@ last update : 2022 JAN
 # import.
 import time
 
-from scapy.layers.l2 import ARP
+from scapy.layers.l2 import ARP, Ether
 from scapy.sendrecv import send
-
-""" 
-@ main structure
- . def main function    
-"""
-# main function
-def main():
-    return
-
-if __name__ == "__main__":
-    main()
 
 """
 @ packet launcher structure
@@ -36,7 +25,9 @@ if __name__ == "__main__":
  . def send many packets
 """
 # packet launcher function.
-def packet_launcher(_packet):
+def packet_launcher():
+    packet = get_arp_packet()
+    send_many_packets(packet, 10, 1)
     return
 
 # send one packet.
@@ -75,9 +66,31 @@ def get_icmp_packet():
 
 # get arp packet function.
 def get_arp_packet():
+    # Ether src = ethernet source address
+    # Ether dst = ethernet destination address
+
     # op (operation code) 1 = ARP Request
     # op (operation code) 2 = ARP Reply
     # op (operation code) 3 = RAPR Request
     # op (operation code) 4 = RARP Reply
-    arp_packet = ARP(op = ARP.who_has, )
+
+    # hwsrc = sender hardware address
+    # psrc = sender protocol address
+    # hwpdst = target hardware address
+    # pdst = target protocol address
+
+    arp_packet = Ether(dst = "ff:ff:ff:ff:ff:ff")/ARP(op = 1, pdst = "192.168.35.1")
+
+    return arp_packet
+
+""" 
+@ main structure
+ . def main function    
+"""
+# main function
+def main():
+    packet_launcher()
     return
+
+if __name__ == "__main__":
+    main()
