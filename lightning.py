@@ -14,6 +14,8 @@ last update : 2022 JAN
 
 # import.
 import time
+
+from scapy.layers.l2 import ARP
 from scapy.sendrecv import send
 
 """ 
@@ -73,4 +75,9 @@ def get_icmp_packet():
 
 # get arp packet function.
 def get_arp_packet():
+    # op (operation code) 1 = ARP Request
+    # op (operation code) 2 = ARP Reply
+    # op (operation code) 3 = RAPR Request
+    # op (operation code) 4 = RARP Reply
+    arp_packet = ARP(op = ARP.who_has, )
     return
