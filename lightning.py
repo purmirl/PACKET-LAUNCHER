@@ -64,23 +64,25 @@ def get_udp_packet():
 def get_icmp_packet():
     return
 
-# get arp packet function.
+""" @:get arp packet function
+01. Ether
+    01-1. src : source mac address
+    01-2. dst : destination mac address
+        if arp request : set "ff:ff:ff:ff:ff:ff" or gateway mac address
+02. ARP
+    01-1. op : ARP operation code
+        if ARP request : integer 1
+        if ARP reply : integer 2
+        if RARP request : integer 3
+        if RARP reply : integer 4
+    01-2. hwsrc : source (sender) mac address (hardware address)
+    01-3. psrc : source (sender) ip address (protocol address)
+    01-4. hwdst : destination (target) sender mac address (hardware address)
+        if ARP request : set "00:00:00:00:00:00"
+    01-5. pdst : destination (target) ip address (protocol address)
+"""
 def get_arp_packet():
-    # Ether src = ethernet source address
-    # Ether dst = ethernet destination address
-
-    # op (operation code) 1 = ARP Request
-    # op (operation code) 2 = ARP Reply
-    # op (operation code) 3 = RAPR Request
-    # op (operation code) 4 = RARP Reply
-
-    # hwsrc = sender hardware address
-    # psrc = sender protocol address
-    # hwpdst = target hardware address
-    # pdst = target protocol address
-
     arp_packet = Ether(dst = "ff:ff:ff:ff:ff:ff")/ARP(op = 1, pdst = "192.168.35.1")
-
     return arp_packet
 
 """ 
