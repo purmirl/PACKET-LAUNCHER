@@ -15,8 +15,10 @@ last update : 2022 JAN
 # import.
 import time
 
+from scapy.layers.inet import IP, TCP
 from scapy.layers.l2 import ARP, Ether
 from scapy.sendrecv import send
+from scapy.volatile import RandShort
 
 """
 @ packet launcher structure
@@ -54,6 +56,7 @@ def send_many_packets(_packet, _number_of_packet, _time_interval):
 """
 # get tcp packet function.
 def get_tcp_packet():
+    tcp_packet = IP(src="", dst="") / TCP(sport=RandShort(), dport=80, seq=1000, ack=1000, flags="S")
     return
 
 # get udp packet function.
@@ -70,16 +73,16 @@ def get_icmp_packet():
     01-2. dst : destination mac address
         if arp request : set "ff:ff:ff:ff:ff:ff" or gateway mac address
 02. ARP
-    01-1. op : ARP operation code
+    02-1. op : ARP operation code
         if ARP request : integer 1
         if ARP reply : integer 2
         if RARP request : integer 3
         if RARP reply : integer 4
-    01-2. hwsrc : source (sender) mac address (hardware address)
-    01-3. psrc : source (sender) ip address (protocol address)
-    01-4. hwdst : destination (target) sender mac address (hardware address)
+    02-2. hwsrc : source (sender) mac address (hardware address)
+    02-3. psrc : source (sender) ip address (protocol address)
+    02-4. hwdst : destination (target) sender mac address (hardware address)
         if ARP request : set "00:00:00:00:00:00"
-    01-5. pdst : destination (target) ip address (protocol address)
+    02-5. pdst : destination (target) ip address (protocol address)
 """
 def get_arp_packet():
     arp_packet = Ether(dst = "ff:ff:ff:ff:ff:ff")/ARP(op = 1, pdst = "192.168.35.1")
