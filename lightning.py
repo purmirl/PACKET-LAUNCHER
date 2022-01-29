@@ -15,10 +15,11 @@ last update : 2022 JAN
 # import.
 import time
 
-from scapy.layers.inet import IP, TCP
+from scapy.layers.inet import IP, TCP, UDP
 from scapy.layers.l2 import ARP, Ether
+from scapy.packet import Raw
 from scapy.sendrecv import send
-from scapy.volatile import RandShort
+from scapy.volatile import RandShort, RandString
 
 """
 @ packet launcher structure
@@ -61,7 +62,11 @@ def get_tcp_packet():
 
 # get udp packet function.
 def get_udp_packet():
-    return
+    source_port = 1 # integer
+    destination_port = 1 # integer
+    data_size = 0 # integer
+    udp_packet = IP(src = "", dst = "")/ UDP(sport = source_port, dport = destination_port)/ Raw(RandString(size = data_size))
+    return udp_packet
 
 # get icmp packet function.
 def get_icmp_packet():
