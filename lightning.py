@@ -15,7 +15,7 @@ last update : 2022 JAN
 # import.
 import time
 
-from scapy.layers.inet import IP, TCP, UDP
+from scapy.layers.inet import IP, TCP, UDP, ICMP
 from scapy.layers.l2 import ARP, Ether
 from scapy.packet import Raw
 from scapy.sendrecv import send
@@ -60,19 +60,55 @@ def get_tcp_packet():
     tcp_packet = IP(src="", dst="") / TCP(sport=RandShort(), dport=80, seq=1000, ack=1000, flags="S")
     return
 
-# get udp packet function.
+""" @:get UDP packet function
+01. IP
+    01-1. src = source ip address
+    01-2. dst = destination ip address
+02. UDP
+    02-1. sport = source port number
+    02-2. dport = destination port number
+    02-3. data_size = packet's data size
+"""
 def get_udp_packet():
+    source_ip_address = "" # string
+    destination_ip_address = "" # string
     source_port = 1 # integer
     destination_port = 1 # integer
     data_size = 0 # integer
-    udp_packet = IP(src = "", dst = "")/ UDP(sport = source_port, dport = destination_port)/ Raw(RandString(size = data_size))
+    udp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ \
+                 UDP(sport = source_port, dport = destination_port)/ \
+                 Raw(RandString(size = data_size))
     return udp_packet
 
 # get icmp packet function.
+""" @:get ICMP packet function
+01. IP
+    01-1. src = source ip address
+    01-2. dst = destination ip address
+02. ICMP
+    02-1. type : ICMP type
+        if type 0 : ICMP echo reply
+        if type 3 : ICMP destination unreachable
+        if type 4 : ICMP source quench, not standard
+        if type 5 : ICMP redirect
+        if type 8 : ICMP echo request
+        if type 9 : ICMP router advertisement
+        if type 10 : ICMP router solicitation
+        if type 11 : ICMP time exceeded
+        if type 12 : ICMP parameter problem
+    02-2. code : ICMP type message
+        if type 0, code 0 : network unreachable
+        if type 0, code 1 : host unreachable
+        if type 0, code 2 : protocol unreachable
+        if type 0, code 3 : port unreachable
+"""
 def get_icmp_packet():
+    source_ip_address = ""
+    destination_ip_address = ""
+    icmp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ ICMP(type = )
     return
 
-""" @:get arp packet function
+""" @:get ARP packet function
 01. Ether
     01-1. src : source mac address
     01-2. dst : destination mac address
@@ -90,7 +126,8 @@ def get_icmp_packet():
     02-5. pdst : destination (target) ip address (protocol address)
 """
 def get_arp_packet():
-    arp_packet = Ether(dst = "ff:ff:ff:ff:ff:ff")/ARP(op = 1, pdst = "192.168.35.1")
+    arp_packet = Ether(dst = "ff:ff:ff:ff:ff:ff")/ \
+                 ARP(op = 1, pdst = "192.168.35.1")
     return arp_packet
 
 """ 
