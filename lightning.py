@@ -56,8 +56,15 @@ def send_many_packets(_packet, _number_of_packet, _time_interval):
  . def get icmp packet
 """
 # get tcp packet function.
+""" @:get TCP packet function
+01. IP
+    01-1. src = source ip address
+    01-2. dst = destination ip address
+"""
 def get_tcp_packet():
-    tcp_packet = IP(src="", dst="") / TCP(sport=RandShort(), dport=80, seq=1000, ack=1000, flags="S")
+    source_ip_address = ""
+    destination_ip_address = ""
+    tcp_packet = IP(src = source_ip_address, dst = destination_ip_address) / TCP(sport=RandShort(), dport=80, seq=1000, ack=1000, flags="S")
     return
 
 """ @:get UDP packet function
@@ -103,10 +110,14 @@ def get_udp_packet():
         if type 0, code 3 : port unreachable
 """
 def get_icmp_packet():
-    source_ip_address = ""
-    destination_ip_address = ""
-    icmp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ ICMP(type = )
-    return
+    source_ip_address = "" # string
+    destination_ip_address = "" # string
+    message_type = 0 # integer
+    data_size = 0 # integer
+    icmp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ \
+                  ICMP(type = message_type)/ \
+                  Raw(RandString(size = data_size))
+    return icmp_packet
 
 """ @:get ARP packet function
 01. Ether
