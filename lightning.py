@@ -62,10 +62,16 @@ def send_many_packets(_packet, _number_of_packet, _time_interval):
     01-2. dst = destination ip address
 """
 def get_tcp_packet():
-    source_ip_address = ""
-    destination_ip_address = ""
-    tcp_packet = IP(src = source_ip_address, dst = destination_ip_address) / TCP(sport=RandShort(), dport=80, seq=1000, ack=1000, flags="S")
-    return
+    source_ip_address = "" # string
+    destination_ip_address = "" # string
+    source_port = RandShort() # integer
+    destination_port = 80 # integer
+    sequence_number = 1000 # integer
+    ack_number = 1000 # integer
+    tcp_flags = "S"
+    tcp_packet = IP(src = source_ip_address, dst = destination_ip_address) / \
+                 TCP(sport = source_port, dport = destination_port, seq = sequence_number, ack = ack_number, flags = tcp_flags)
+    return tcp_packet
 
 """ @:get UDP packet function
 01. IP
