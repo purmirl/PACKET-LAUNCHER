@@ -24,8 +24,8 @@ from scapy.volatile import RandShort, RandString
 """
 @ packet launcher structure
  . def packet_launcher
- . def send one packet
- . def send many packets
+ . def send_one_packet
+ . def send_many_packets
 """
 # packet launcher function.
 def packet_launcher():
@@ -51,13 +51,48 @@ def send_many_packets(_packet, _number_of_packet, _time_interval):
 
 """
 @ packet structure
- . def get tcp packet
- . def get udp packet
- . def get icmp packet
+ . def get_arp_packet
+ . def get_icmp_packet
+ . def get_tcp_packet
+ . def get_udp_packet
 """
 
-""" @:get IP Packet function
+""" @:get ARP packet function
+01. Ether
+    01-1. src : source mac address
+    01-2. dst : destination mac address
+        if arp request : set "ff:ff:ff:ff:ff:ff" or gateway mac address
+02. ARP
+    02-1. op : ARP operation code
+        if ARP request : integer 1
+        if ARP reply : integer 2
+        if RARP request : integer 3
+        if RARP reply : integer 4
+    02-2. hwsrc : source (sender) mac address (hardware address)
+    02-3. psrc : source (sender) ip address (protocol address)
+    02-4. hwdst : destination (target) sender mac address (hardware address)
+        if ARP request : set "00:00:00:00:00:00"
+    02-5. pdst : destination (target) ip address (protocol address)
+"""
+def get_arp_packet():
+    source_mac_address = "" # string
+    destination_mac_address = "ff:ff:ff:ff:ff:ff" # string
 
+    operation_code = 1
+    hardware_address_source = "" # string
+    protocol_address_source = "" # string
+    hardware_address_destination = "" # string
+    protocol_address_destination = "192.168.35.1" # string
+
+    arp_packet = Ether(src = source_mac_address, dst = destination_mac_address)/ \
+                 ARP(op = operation_code, pdst = protocol_address_destination)
+
+    return arp_packet
+
+""" @:get IP Packet function
+01. IP
+    01-1. src = source ip address
+    01-2. dst = destination ip address
 """
 def get_ip_packet():
     source_ip_address = ""
@@ -65,54 +100,11 @@ def get_ip_packet():
 
     data_size = 0 # integer
 
-    ip_packet = IP(src = source_ip_address, dst = destination_ip_address) / Raw(RandString(size = data_size))
-    return
+    ip_packet = IP(src = source_ip_address, dst = destination_ip_address) / \
+                Raw(RandString(size = data_size))
 
+    return ip_packet
 
-
-
-""" @:get TCP packet function
-01. IP
-    01-1. src = source ip address
-    01-2. dst = destination ip address
-"""
-def get_tcp_packet():
-    source_ip_address = "" # string
-    destination_ip_address = "" # string
-
-    source_port = RandShort() # integer
-    destination_port = 80 # integer
-    sequence_number = 1000 # integer
-    ack_number = 1000 # integer
-    tcp_flags = "S"
-
-    tcp_packet = IP(src = source_ip_address, dst = destination_ip_address) / \
-                 TCP(sport = source_port, dport = destination_port, seq = sequence_number, ack = ack_number, flags = tcp_flags)
-    return tcp_packet
-
-""" @:get UDP packet function
-01. IP
-    01-1. src = source ip address
-    01-2. dst = destination ip address
-02. UDP
-    02-1. sport = source port number
-    02-2. dport = destination port number
-    02-3. data_size = packet's data size
-"""
-def get_udp_packet():
-    source_ip_address = "" # string
-    destination_ip_address = "" # string
-
-    source_port = 1 # integer
-    destination_port = 1 # integer
-    data_size = 0 # integer
-
-    udp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ \
-                 UDP(sport = source_port, dport = destination_port)/ \
-                 Raw(RandString(size = data_size))
-    return udp_packet
-
-# get icmp packet function.
 """ @:get ICMP packet function
 01. IP
     01-1. src = source ip address
@@ -144,29 +136,51 @@ def get_icmp_packet():
     icmp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ \
                   ICMP(type = message_type)/ \
                   Raw(RandString(size = data_size))
+
     return icmp_packet
 
-""" @:get ARP packet function
-01. Ether
-    01-1. src : source mac address
-    01-2. dst : destination mac address
-        if arp request : set "ff:ff:ff:ff:ff:ff" or gateway mac address
-02. ARP
-    02-1. op : ARP operation code
-        if ARP request : integer 1
-        if ARP reply : integer 2
-        if RARP request : integer 3
-        if RARP reply : integer 4
-    02-2. hwsrc : source (sender) mac address (hardware address)
-    02-3. psrc : source (sender) ip address (protocol address)
-    02-4. hwdst : destination (target) sender mac address (hardware address)
-        if ARP request : set "00:00:00:00:00:00"
-    02-5. pdst : destination (target) ip address (protocol address)
+""" @:get TCP packet function
+01. IP
+    01-1. src = source ip address
+    01-2. dst = destination ip address
 """
-def get_arp_packet():
-    arp_packet = Ether(dst = "ff:ff:ff:ff:ff:ff")/ \
-                 ARP(op = 1, pdst = "192.168.35.1")
-    return arp_packet
+def get_tcp_packet():
+    source_ip_address = "" # string
+    destination_ip_address = "" # string
+
+    source_port = RandShort() # integer
+    destination_port = 80 # integer
+    sequence_number = 1000 # integer
+    ack_number = 1000 # integer
+    tcp_flags = "S"
+
+    tcp_packet = IP(src = source_ip_address, dst = destination_ip_address) / \
+                 TCP(sport = source_port, dport = destination_port, seq = sequence_number, ack = ack_number, flags = tcp_flags)
+
+    return tcp_packet
+
+""" @:get UDP packet function
+01. IP
+    01-1. src = source ip address
+    01-2. dst = destination ip address
+02. UDP
+    02-1. sport = source port number
+    02-2. dport = destination port number
+    02-3. data_size = packet's data size
+"""
+def get_udp_packet():
+    source_ip_address = "" # string
+    destination_ip_address = "" # string
+
+    source_port = 1 # integer
+    destination_port = 1 # integer
+    data_size = 0 # integer
+
+    udp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ \
+                 UDP(sport = source_port, dport = destination_port)/ \
+                 Raw(RandString(size = data_size))
+
+    return udp_packet
 
 """ 
 @ main structure
