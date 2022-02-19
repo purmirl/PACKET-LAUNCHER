@@ -55,7 +55,22 @@ def send_many_packets(_packet, _number_of_packet, _time_interval):
  . def get udp packet
  . def get icmp packet
 """
-# get tcp packet function.
+
+""" @:get IP Packet function
+
+"""
+def get_ip_packet():
+    source_ip_address = ""
+    destination_ip_address = ""
+
+    data_size = 0 # integer
+
+    ip_packet = IP(src = source_ip_address, dst = destination_ip_address) / Raw(RandString(size = data_size))
+    return
+
+
+
+
 """ @:get TCP packet function
 01. IP
     01-1. src = source ip address
@@ -64,11 +79,13 @@ def send_many_packets(_packet, _number_of_packet, _time_interval):
 def get_tcp_packet():
     source_ip_address = "" # string
     destination_ip_address = "" # string
+
     source_port = RandShort() # integer
     destination_port = 80 # integer
     sequence_number = 1000 # integer
     ack_number = 1000 # integer
     tcp_flags = "S"
+
     tcp_packet = IP(src = source_ip_address, dst = destination_ip_address) / \
                  TCP(sport = source_port, dport = destination_port, seq = sequence_number, ack = ack_number, flags = tcp_flags)
     return tcp_packet
@@ -85,9 +102,11 @@ def get_tcp_packet():
 def get_udp_packet():
     source_ip_address = "" # string
     destination_ip_address = "" # string
+
     source_port = 1 # integer
     destination_port = 1 # integer
     data_size = 0 # integer
+
     udp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ \
                  UDP(sport = source_port, dport = destination_port)/ \
                  Raw(RandString(size = data_size))
@@ -118,8 +137,10 @@ def get_udp_packet():
 def get_icmp_packet():
     source_ip_address = "" # string
     destination_ip_address = "" # string
+
     message_type = 0 # integer
     data_size = 0 # integer
+
     icmp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ \
                   ICMP(type = message_type)/ \
                   Raw(RandString(size = data_size))
