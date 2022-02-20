@@ -54,20 +54,20 @@ def send_many_packets(_packet, _number_of_packet, _time_interval):
 
 """ @:get ARP packet function
 01. Ether
-    01-1. src : source mac address
-    01-2. dst : destination mac address
+    01-1. src = source_mac_address
+    01-2. dst = destination_mac_address
         if arp request : set "ff:ff:ff:ff:ff:ff" or gateway mac address
 02. ARP
-    02-1. op : ARP operation code
+    02-1. op = operation_code
         if ARP request : integer 1
         if ARP reply : integer 2
         if RARP request : integer 3
         if RARP reply : integer 4
-    02-2. hwsrc : source (sender) mac address (hardware address)
-    02-3. psrc : source (sender) ip address (protocol address)
-    02-4. hwdst : destination (target) sender mac address (hardware address)
+    02-2. hwsrc = hardware_address_source (sender mac address)
+    02-3. psrc = protocol_address_source (sender ip address)
+    02-4. hwdst = hardware_address_destination (target mac address)
         if ARP request : set "00:00:00:00:00:00"
-    02-5. pdst : destination (target) ip address (protocol address)
+    02-5. pdst = protocol_address_destination (target ip address)
 """
 def get_arp_packet():
     source_mac_address = "" # string, param : src
@@ -86,12 +86,12 @@ def get_arp_packet():
 
 """ @:get IP Packet function
 01. IP
-    01-1. src = source ip address
-    01-2. dst = destination ip address
+    01-1. src = source_ip_address
+    01-2. dst = destination_ip_address
 """
 def get_ip_packet():
-    source_ip_address = ""
-    destination_ip_address = ""
+    source_ip_address = "" # string, param : src
+    destination_ip_address = "" # string, param : dst
 
     data_size = 0 # integer
 
