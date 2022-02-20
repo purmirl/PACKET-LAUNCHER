@@ -49,12 +49,7 @@ def send_many_packets(_packet, _number_of_packet, _time_interval):
         time.sleep(int(_time_interval))
     return
 
-"""
-@ packet structure
- . def get_arp_packet
- . def get_icmp_packet
- . def get_tcp_packet
- . def get_udp_packet
+""" @:making packet function area ↓ : ARP, IP, ICMP, TCP, UDP
 """
 
 """ @:get ARP packet function
@@ -75,14 +70,14 @@ def send_many_packets(_packet, _number_of_packet, _time_interval):
     02-5. pdst : destination (target) ip address (protocol address)
 """
 def get_arp_packet():
-    source_mac_address = "" # string
-    destination_mac_address = "ff:ff:ff:ff:ff:ff" # string
+    source_mac_address = "" # string, param : src
+    destination_mac_address = "ff:ff:ff:ff:ff:ff" # string, param : dst
 
-    operation_code = 1
-    hardware_address_source = "" # string
-    protocol_address_source = "" # string
-    hardware_address_destination = "" # string
-    protocol_address_destination = "192.168.35.1" # string
+    operation_code = 1 # integer, param : op
+    hardware_address_source = "" # string, param : hwsrc
+    protocol_address_source = "" # string, param : psrc
+    hardware_address_destination = "" # string, param : hwdst
+    protocol_address_destination = "192.168.35.1" # string, param : pdst
 
     arp_packet = Ether(src = source_mac_address, dst = destination_mac_address)/ \
                  ARP(op = operation_code, pdst = protocol_address_destination)
