@@ -102,10 +102,10 @@ def get_ip_packet():
 
 """ @:get ICMP packet function
 01. IP
-    01-1. src = source ip address
-    01-2. dst = destination ip address
+    01-1. src = source_ip_address
+    01-2. dst = destination_ip_address
 02. ICMP
-    02-1. type : ICMP type
+    02-1. type = message_type
         if type 0 : ICMP echo reply
         if type 3 : ICMP destination unreachable
         if type 4 : ICMP source quench, not standard
@@ -115,17 +115,13 @@ def get_ip_packet():
         if type 10 : ICMP router solicitation
         if type 11 : ICMP time exceeded
         if type 12 : ICMP parameter problem
-    02-2. code : ICMP type message
-        if type 0, code 0 : network unreachable
-        if type 0, code 1 : host unreachable
-        if type 0, code 2 : protocol unreachable
-        if type 0, code 3 : port unreachable
 """
 def get_icmp_packet():
-    source_ip_address = "" # string
-    destination_ip_address = "" # string
+    source_ip_address = "" # string, param : src
+    destination_ip_address = "" # string, param : dst
 
-    message_type = 0 # integer
+    message_type = 0 # integer, param : type
+
     data_size = 0 # integer
 
     icmp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ \
