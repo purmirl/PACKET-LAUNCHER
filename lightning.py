@@ -1,7 +1,7 @@
 """
 Copyright 2022~ PeTrA. All rights reserved.
 
-Lightning Arrow Project (Simple Packet Launcher Script with Python Scapy by PeTrA. 2022~
+Lightning Arrow Project : Simple Packet Launcher Script with Python Scapy by PeTrA. 2022~
 LightningArrow 1.0
 Language : Python3.8.2 on pycharm IDE
 Library : Scapy2.4.3
@@ -9,7 +9,7 @@ Library : Scapy2.4.3
 @lightning.py
 https://github.com/purmirl/PACKET-LAUNCHER/lightning.py
 
-last update : 2022 JAN
+last update : 2022 FEB
 """
 
 # import.
@@ -132,18 +132,32 @@ def get_icmp_packet():
 
 """ @:get TCP packet function
 01. IP
-    01-1. src = source ip address
-    01-2. dst = destination ip address
+    01-1. src = source_ip_address
+    01-2. dst = destination_ip_address
+02. TCP
+    02-1. sport = source_port
+    02-2. dport = destination_port
+    02-3. seq = sequence_number
+    02-4. ack = ack_number
+    02-5. flags = tcp_flags
+        CWR : C / Congestion Window Reduced
+        ECE : E / Explicit Congestion Notification (ECN) Echo
+        URG : U / Urgent
+        ACK : A / Acknowledgment
+        PSH : P / Push
+        RST : R / Reset
+        SYN : S / Synchronize
+        FIN : F / Finish
 """
 def get_tcp_packet():
     source_ip_address = "" # string
     destination_ip_address = "" # string
 
-    source_port = RandShort() # integer
-    destination_port = 80 # integer
-    sequence_number = 1000 # integer
-    ack_number = 1000 # integer
-    tcp_flags = "S"
+    source_port = RandShort() # integer, param : sport
+    destination_port = 80 # integer, param : dport
+    sequence_number = 1000 # integer, param : seq
+    ack_number = 1000 # integer, param : ack
+    tcp_flags = "S" # string, param : flags
 
     tcp_packet = IP(src = source_ip_address, dst = destination_ip_address) / \
                  TCP(sport = source_port, dport = destination_port, seq = sequence_number, ack = ack_number, flags = tcp_flags)
@@ -152,7 +166,7 @@ def get_tcp_packet():
 
 """ @:get UDP packet function
 01. IP
-    01-1. src = source ip address
+    01-1. src = 
     01-2. dst = destination ip address
 02. UDP
     02-1. sport = source port number
