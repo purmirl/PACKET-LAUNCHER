@@ -12,7 +12,6 @@ https://github.com/purmirl/PACKET-LAUNCHER/lightning.py
 last update : 2022 FEB
 """
 
-# import.
 import time
 
 from scapy.layers.inet import IP, TCP, UDP, ICMP
@@ -21,24 +20,24 @@ from scapy.packet import Raw
 from scapy.sendrecv import send
 from scapy.volatile import RandShort, RandString
 
+""" @:packet launcher structure ↓ : packet_launcher, send_one_packet, send_many_packets
 """
-@ packet launcher structure
- . def packet_launcher
- . def send_one_packet
- . def send_many_packets
+
+""" @:packet launcher
 """
-# packet launcher function.
 def packet_launcher():
     packet = get_arp_packet()
     send_many_packets(packet, 10, 1)
     return
 
-# send one packet.
+""" @:send one packet
+"""
 def send_one_packet(_packet):
     send(_packet)
     return
 
-# send many packets(_packet).
+""" @:send many packets
+"""
 def send_many_packets(_packet, _number_of_packet, _time_interval):
     counter = 0
     while True:
@@ -159,26 +158,29 @@ def get_tcp_packet():
     ack_number = 1000 # integer, param : ack
     tcp_flags = "S" # string, param : flags
 
+    data_size = 0 # integer
+
     tcp_packet = IP(src = source_ip_address, dst = destination_ip_address) / \
-                 TCP(sport = source_port, dport = destination_port, seq = sequence_number, ack = ack_number, flags = tcp_flags)
+                 TCP(sport = source_port, dport = destination_port, seq = sequence_number, ack = ack_number, flags = tcp_flags) / \
+                 Raw(RandString(size = data_size))
 
     return tcp_packet
 
 """ @:get UDP packet function
 01. IP
-    01-1. src = 
-    01-2. dst = destination ip address
+    01-1. src = source_ip_address
+    01-2. dst = destination_ip_address
 02. UDP
-    02-1. sport = source port number
-    02-2. dport = destination port number
-    02-3. data_size = packet's data size
+    02-1. sport = source_port
+    02-2. dport = destination_port
 """
 def get_udp_packet():
-    source_ip_address = "" # string
-    destination_ip_address = "" # string
+    source_ip_address = "" # string, param : src
+    destination_ip_address = "" # string, param : dst
 
-    source_port = 1 # integer
-    destination_port = 1 # integer
+    source_port = 1 # integer, param : source_port
+    destination_port = 1 # integer, param : destination_port
+
     data_size = 0 # integer
 
     udp_packet = IP(src = source_ip_address, dst = destination_ip_address)/ \
@@ -191,7 +193,6 @@ def get_udp_packet():
 @ main structure
  . def main function    
 """
-# main function
 def main():
     packet_launcher()
     return
